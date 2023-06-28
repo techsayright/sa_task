@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-export default function UploadFile({setIsShow}) {
+export default function UploadFile({setIsShow, access_token}) {
   const [detail, setDetail] = useState("")
 
   const submitFile = async (e) => {
@@ -14,6 +14,7 @@ export default function UploadFile({setIsShow}) {
     let resp = await fetch("http://localhost:8000/upload_image", {
       method: "POST",
       body: formData,
+      headers:{"Authorization": `Bearer ${access_token}`}
     })
     let data = await resp.json()
     console.log(data);

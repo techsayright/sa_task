@@ -1,9 +1,10 @@
 import React from 'react'
 import {GoogleLogout} from 'react-google-login';
 
-export default function GoogleSignout() {
+export default function GoogleSignout({setAccessToken}) {
     const successResponseGoogle = () =>{
         console.log("logout success");
+        setAccessToken(null)
     }
 
   return (  

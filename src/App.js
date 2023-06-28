@@ -13,6 +13,7 @@ import DetailThumb from "./components/DetailThumb";
 
 function App() {
   const [isShow, setIsShow] = useState(false);  
+  const [access_token, setAccessToken] = useState(null);  
 
   useEffect(() => {
     function start() {
@@ -27,15 +28,17 @@ function App() {
   });
 
 
+
+
   return (
     <div>
-      <div className="logout"><GoogleSignout /></div>
-      <div className="upload"><button onClick={()=> setIsShow(!isShow)}>{ isShow ? "Back" : "Upload Image"}</button></div>
-      {isShow ? <div className="center"><UploadFile setIsShow={setIsShow}/></div> :<Routes>
-        <Route exact path="/" element={<div className="center"><GoogleSignin/></div>} />
-        <Route exact path="/home" element={<div><ListImage/></div>} />
-        <Route exact path="/home/:id" element={<div ><ShowThumbs/></div>} />
-        <Route exact path="/thumb/:id" element={<div className="center"><DetailThumb/></div>} />
+      {!access_token || <><div className="logout"><GoogleSignout setAccessToken={setAccessToken}/></div>
+      <div className="upload"><button onClick={()=> setIsShow(!isShow)}>{ isShow ? "Back" : "Upload Image"}</button></div></>}
+      {isShow ? <div className="center"><UploadFile setIsShow={setIsShow} setAccessToken={setAccessToken}/></div> :<Routes>
+        <Route exact path="/" element={<div className="center"><GoogleSignin setAccessToken={setAccessToken}/></div>} />
+        <Route exact path="/home" element={<div><ListImage access_token={access_token}/></div>} />
+        <Route exact path="/home/:id" element={<div ><ShowThumbs access_token={access_token}/></div>} />
+        <Route exact path="/thumb/:id" element={<div className="center"><DetailThumb access_token={access_token}/></div>} />
         <Route path="*" element={<h1 className="center">Not Found !! </h1>}/>
       </Routes>}
     </div>

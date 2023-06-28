@@ -1,9 +1,13 @@
 import React from 'react'
 import {GoogleLogin} from 'react-google-login';
+import { useNavigate } from 'react-router-dom';
 
-export default function GoogleSignin() {
+export default function GoogleSignin({setAccessToken}) {
+    const navigate = useNavigate()
     const successResponseGoogle = (r) =>{
-        console.log(r);
+        console.log(r.accessToken);
+        setAccessToken(r.accessToken)
+        navigate('/home')
     }
 
     const failureResponseGoogle = (r) =>{

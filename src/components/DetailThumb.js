@@ -1,13 +1,19 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
-export default function DetailThumb() {
+export default function DetailThumb({access_token}) {
   const params = useParams()
   const [thumb, setThumb] = useState("")
+  const navigate = useNavigate()
+
+  //authentication
+  if(!access_token){
+    navigate("/")
+  }
 
   useEffect(()=>{
     async function getThumb(params){
-      const resp = await fetch(`http://localhost:8000/thumb_details/${params}`)
+      const resp = await fetch(`http://localhost:8000/thumb_details/${params}`, {headers:{"Authorization": `Bearer ${access_token}`}})
       const resp_data = await resp.json()
       setThumb(resp_data)
       // console.log(resp_data);
